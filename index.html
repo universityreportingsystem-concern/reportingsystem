@@ -2,25 +2,27 @@
 <html>
 <head>
   <title>School Concern Reporting System</title>
-  <link rel="stylesheet" href="design.css">
+  <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" href="logo.jpg" type="image/x-icon">
 </head>
 
 <body>
 
+  <!-- ✅ LOADING SCREEN -->
+  <div id="loadingScreen">
+    Submitting... Please wait ⏳
+  </div>
+
   <div class="container">
 
     <h2>Report Your Concern</h2>
 
-    <!-- Name Box -->
     <input id="name" placeholder="Your name (optional)">
     <br>
 
-    <!-- Concern Box -->
     <textarea id="concern" rows="4" placeholder="Type your concern here..."></textarea>
     <br>
 
-    <!-- Photo Box -->
     <label class="upload-box">
       Click here to upload photo
       <input type="file" id="photo" accept="image/*">
@@ -53,12 +55,16 @@
   });
 
   function sendToSheet() {
+
+    // ✅ SHOW LOADING
+    document.getElementById("loadingScreen").style.display = "flex";
+
     const name = document.getElementById("name").value || "Anonymous";
     const concern = document.getElementById("concern").value || "";
     const file = photoInput.files[0];
 
     if (!file) {
-      fetch("https://script.google.com/macros/s/AKfycbzreWpxfKeQYT_t_pHg_b86r3sa308oK1f9kqVBMK64KNbcn_1JY9Sovq3kqqdfMKhT/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbzGGl5heyNRhMOMHFRJUwNfxFposlo6Mr2Em3NMxx7OMrCqUcS8we8-UNS7rs2a94_WKA/exec", {
         method: "POST",
         body: JSON.stringify({
           name: name,
@@ -69,10 +75,12 @@
       })
       .then(res => res.json())
       .then(data => {
+        document.getElementById("loadingScreen").style.display = "none";
         alert("Concern sent successfully!");
         location.reload();
       })
       .catch(err => {
+        document.getElementById("loadingScreen").style.display = "none";
         alert("Error sending data.");
         console.error(err);
       });
@@ -84,7 +92,7 @@
     reader.onload = function () {
       const base64Image = reader.result.split(',')[1];
 
-      fetch("https://script.google.com/macros/s/AKfycbzreWpxfKeQYT_t_pHg_b86r3sa308oK1f9kqVBMK64KNbcn_1JY9Sovq3kqqdfMKhT/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbzGGl5heyNRhMOMHFRJUwNfxFposlo6Mr2Em3NMxx7OMrCqUcS8we8-UNS7rs2a94_WKA/exec", {
         method: "POST",
         body: JSON.stringify({
           name: name,
@@ -95,10 +103,12 @@
       })
       .then(res => res.json())
       .then(data => {
+        document.getElementById("loadingScreen").style.display = "none";
         alert("Concern sent successfully!");
         location.reload();
       })
       .catch(err => {
+        document.getElementById("loadingScreen").style.display = "none";
         alert("Error sending data.");
         console.error(err);
       });
