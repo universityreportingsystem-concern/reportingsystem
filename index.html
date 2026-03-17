@@ -8,114 +8,113 @@
 
 <body>
 
-  <!-- ✅ LOADING SCREEN -->
-  <div id="loadingScreen">
-    Submitting... Please wait ⏳
-  </div>
+<!-- ✅ LOADING SCREEN (hidden by default) -->
+<div id="loadingScreen">Submitting... Please wait ⏳</div>
 
-  <div class="container">
+<div class="container">
+  <h2>Report Your Concern</h2>
 
-    <h2>Report Your Concern</h2>
+  <input id="name" placeholder="Your name (optional)">
+  <br>
 
-    <input id="name" placeholder="Your name (optional)">
-    <br>
+  <textarea id="concern" rows="4" placeholder="Type your concern here..."></textarea>
+  <br>
 
-    <textarea id="concern" rows="4" placeholder="Type your concern here..."></textarea>
-    <br>
+  <label class="upload-box">
+    Click here to upload photo
+    <input type="file" id="photo" accept="image/*">
+  </label>
 
-    <label class="upload-box">
-      Click here to upload photo
-      <input type="file" id="photo" accept="image/*">
-    </label>
-    <br>
+  <img id="preview" class="preview">
+  <br>
 
-    <img id="preview" class="preview" style="display:none;">
-    <br>
-
-    <button onclick="sendToSheet()">Submit Concern</button>
-
-  </div>
+  <button onclick="sendToSheet()">Submit Concern</button>
+</div>
 
 <script>
-  const photoInput = document.getElementById("photo");
-  const preview = document.getElementById("preview");
+window.onload = function () {
+  // ✅ FORCE HIDE loading on start
+  document.getElementById("loadingScreen").style.display = "none";
+};
 
-  photoInput.addEventListener("change", function () {
-    const file = this.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        preview.src = e.target.result;
-        preview.style.display = "block";
-      };
-      reader.readAsDataURL(file);
-    } else {
-      preview.style.display = "none";
-    }
-  });
+const photoInput = document.getElementById("photo");
+const preview = document.getElementById("preview");
 
-  function sendToSheet() {
+photoInput.addEventListener("change", function () {
+  const file = this.files[0];
 
-    // ✅ SHOW LOADING
-    document.getElementById("loadingScreen").style.display = "flex";
-
-    const name = document.getElementById("name").value || "Anonymous";
-    const concern = document.getElementById("concern").value || "";
-    const file = photoInput.files[0];
-
-    if (!file) {
-      fetch("https://script.google.com/macros/s/AKfycbzreWpxfKeQYT_t_pHg_b86r3sa308oK1f9kqVBMK64KNbcn_1JY9Sovq3kqqdfMKhT/exec", {
-        method: "POST",
-        body: JSON.stringify({
-          name: name,
-          concern: concern,
-          image: "",
-          fileName: ""
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("loadingScreen").style.display = "none";
-        alert("Concern sent successfully!");
-        location.reload();
-      })
-      .catch(err => {
-        document.getElementById("loadingScreen").style.display = "none";
-        alert("Error sending data.");
-        console.error(err);
-      });
-
-      return;
-    }
-
+  if (file) {
     const reader = new FileReader();
-    reader.onload = function () {
-      const base64Image = reader.result.split(',')[1];
-
-      fetch("https://script.google.com/macros/s/AKfycbzreWpxfKeQYT_t_pHg_b86r3sa308oK1f9kqVBMK64KNbcn_1JY9Sovq3kqqdfMKhT/exec", {
-        method: "POST",
-        body: JSON.stringify({
-          name: name,
-          concern: concern,
-          image: base64Image,
-          fileName: file.name
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("loadingScreen").style.display = "none";
-        alert("Concern sent successfully!");
-        location.reload();
-      })
-      .catch(err => {
-        document.getElementById("loadingScreen").style.display = "none";
-        alert("Error sending data.");
-        console.error(err);
-      });
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+      preview.style.display = "block";
     };
-
     reader.readAsDataURL(file);
+  } else {
+    preview.style.display = "none";
   }
+});
+
+function sendToSheet() {
+  // ✅ SHOW LOADING ONLY WHEN CLICKED
+  document.getElementById("loadingScreen").style.display = "flex";
+
+  const name = document.getElementById("name").value || "Anonymous";
+  const concern = document.getElementById("concern").value || "";
+  const file = photoInput.files[0];
+
+  if (!file) {
+    fetch("https://script.google.com/macros/s/AKfycbzreWpxfKeQYT_t_pHg_b86r3sa308oK1f9kqVBMK64KNbcn_1JY9Sovq3kqqdfMKhT/exec", {
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        concern: concern,
+        image: "",
+        fileName: ""
+      })
+    })
+    .then(res => res.json())
+    .then(() => {
+      document.getElementById("loadingScreen").style.display = "none";
+      alert("Concern sent successfully!");
+      location.reload();
+    })
+    .catch(() => {
+      document.getElementById("loadingScreen").style.display = "none";
+      alert("Error sending data.");
+    });
+
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function () {
+    const base64Image = reader.result.split(',')[1];
+
+    fetch("https://script.google.com/macros/s/AKfycbzreWpxfKeQYT_t_pHg_b86r3sa308oK1f9kqVBMK64KNbcn_1JY9Sovq3kqqdfMKhT/exec", {
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        concern: concern,
+        image: base64Image,
+        fileName: file.name
+      })
+    })
+    .then(res => res.json())
+    .then(() => {
+      document.getElementById("loadingScreen").style.display = "none";
+      alert("Concern sent successfully!");
+      location.reload();
+    })
+    .catch(() => {
+      document.getElementById("loadingScreen").style.display = "none";
+      alert("Error sending data.");
+    });
+  };
+
+  reader.readAsDataURL(file);
+}
 </script>
 
 </body>
