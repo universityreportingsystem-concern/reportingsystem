@@ -64,7 +64,7 @@
     const file = photoInput.files[0];
 
     if (!file) {
-      fetch("https://script.google.com/macros/s/AKfycbzGGl5heyNRhMOMHFRJUwNfxFposlo6Mr2Em3NMxx7OMrCqUcS8we8-UNS7rs2a94_WKA/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbzreWpxfKeQYT_t_pHg_b86r3sa308oK1f9kqVBMK64KNbcn_1JY9Sovq3kqqdfMKhT/exec", {
         method: "POST",
         body: JSON.stringify({
           name: name,
@@ -92,7 +92,7 @@
     reader.onload = function () {
       const base64Image = reader.result.split(',')[1];
 
-      fetch("https://script.google.com/macros/s/AKfycbzGGl5heyNRhMOMHFRJUwNfxFposlo6Mr2Em3NMxx7OMrCqUcS8we8-UNS7rs2a94_WKA/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbzreWpxfKeQYT_t_pHg_b86r3sa308oK1f9kqVBMK64KNbcn_1JY9Sovq3kqqdfMKhT/exec", {
         method: "POST",
         body: JSON.stringify({
           name: name,
