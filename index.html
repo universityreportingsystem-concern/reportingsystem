@@ -8,21 +8,19 @@
 
 <body>
 
-  <!-- ✅ LOADING SCREEN -->
-  <div id="loadingScreen">
-    Submitting... Please wait ⏳
-  </div>
-
   <div class="container">
 
     <h2>Report Your Concern</h2>
 
+    <!-- Name Box -->
     <input id="name" placeholder="Your name (optional)">
     <br>
 
+    <!-- Concern Box -->
     <textarea id="concern" rows="4" placeholder="Type your concern here..."></textarea>
     <br>
 
+    <!-- Photo Box -->
     <label class="upload-box">
       Click here to upload photo
       <input type="file" id="photo" accept="image/*">
@@ -55,10 +53,6 @@
   });
 
   function sendToSheet() {
-
-    // ✅ SHOW LOADING
-    document.getElementById("loadingScreen").style.display = "flex";
-
     const name = document.getElementById("name").value || "Anonymous";
     const concern = document.getElementById("concern").value || "";
     const file = photoInput.files[0];
@@ -75,12 +69,10 @@
       })
       .then(res => res.json())
       .then(data => {
-        document.getElementById("loadingScreen").style.display = "none";
         alert("Concern sent successfully!");
         location.reload();
       })
       .catch(err => {
-        document.getElementById("loadingScreen").style.display = "none";
         alert("Error sending data.");
         console.error(err);
       });
@@ -103,12 +95,10 @@
       })
       .then(res => res.json())
       .then(data => {
-        document.getElementById("loadingScreen").style.display = "none";
         alert("Concern sent successfully!");
         location.reload();
       })
       .catch(err => {
-        document.getElementById("loadingScreen").style.display = "none";
         alert("Error sending data.");
         console.error(err);
       });
