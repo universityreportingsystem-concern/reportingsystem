@@ -94,3 +94,23 @@ body {
     /* Vertical gradient */
     background: linear-gradient(to bottom, #000080, #FFD700);
 }
+
+/* LOADING SCREEN */
+#loadingScreen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 20px;
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    z-index: 999;
+}
